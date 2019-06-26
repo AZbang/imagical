@@ -1,25 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Card, Layout } from './ui';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <Card>
+        <h1>React</h1>
+      </Card>
+      <Card>
+        <h1>Typescript</h1>
+      </Card>
+      <Card>
+        <h1>VK Apps</h1>
+      </Card>
+    </Layout>
   );
 }
 
