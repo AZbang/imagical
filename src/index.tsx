@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import './assets/index.css';
+import './static/index.css';
 import App from './App';
+import * as stores from './stores';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = document.getElementById('root');
+ReactDOM.render(<App stores={stores} />, root);
 serviceWorker.unregister();

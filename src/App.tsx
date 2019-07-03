@@ -1,20 +1,15 @@
 import React from 'react';
-import { Card, Layout } from './ui';
+import { Provider } from 'mobx-react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { User, Feed } from './views';
 
-const App: React.FC = () => {
-  return (
-    <Layout>
-      <Card>
-        <h1>React</h1>
-      </Card>
-      <Card>
-        <h1>Typescript</h1>
-      </Card>
-      <Card>
-        <h1>VK Apps</h1>
-      </Card>
-    </Layout>
-  );
-}
+const App: React.FC = ({ stores }: { stores: [] }) => (
+  <Provider {...stores}>
+    <Router>
+      <Route exact path="/" component={User} />
+      <Route path="/feed" component={Feed} />
+    </Router>
+  </Provider>
+)
 
 export default App;

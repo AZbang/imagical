@@ -9,6 +9,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +21,6 @@
     "jsx": "preserve"
   },
   "include": [
-    "src"
+    "src/**/*",
   ]
 }
