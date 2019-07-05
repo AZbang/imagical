@@ -6,6 +6,6 @@ const Main: React.FC = () => (
     <User />
     <Feed feed={new Array(100).fill(1)} />
   </View>
-)
+);
 
 export default Main;

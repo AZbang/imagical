@@ -12,6 +12,6 @@ const App: React.FC = () => (
       <Route path="/saved" component={Main} />
     </Router>
   </Provider>
-)
+);
 
 export default App;

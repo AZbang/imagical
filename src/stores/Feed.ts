@@ -1,19 +1,16 @@
 import { observable, action } from 'mobx';
 import account from './Account';
-
-interface IFeed {
-
-}
+import { ImagicI } from '../typings';
 
 class Feed {
   @observable
-  data: IFeed[] = [];
+  data: ImagicI[] = [];
 
   @observable
   loading: boolean = false;
 
   @action
-  public async fetchData() {
+  public async fetchData(): Promise<void> {
     this.loading = true;
     this.data = await account.api('wall.get');
     this.loading = false;

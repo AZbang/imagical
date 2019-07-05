@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 const View = styled.div`
   width: 100vw;
@@ -8,5 +8,5 @@ const View = styled.div`
   > * {
     padding: 10px;
   }
-`
+`;
 export default View;
