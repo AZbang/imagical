@@ -7,8 +7,20 @@ export interface PublicI {
 }
 
 export interface ImagicI {
-  photo: string;
-  likes: number;
-  color: ColorT;
-  public: PublicI;
+  photo: string | null;
+  width: number | null;
+  height: number | null;
+  text: string | null;
+}
+
+export interface VKPhotoSizeI {
+  type: 's' | 'x';
+  width: number;
+  height: number;
+  url: string;
+}
+
+export interface VKPhotoI {
+  text: string;
+  sizes: VKPhotoSizeI[];
 }

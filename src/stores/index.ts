@@ -1,4 +1,10 @@
-import account from './Account';
-import feed from './Feed';
+import Account from './Account';
+import Feed from './Feed';
 
-export { account, feed };
+export interface StoresI {
+  feed: Feed;
+  account: Account;
+}
+
+export const feed = new Feed();
+export const account = new Account();

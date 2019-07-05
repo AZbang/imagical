@@ -6,8 +6,9 @@ interface Props {
 
 const Grid = styled.div<Props>`
   display: grid;
+  height: 100vh;
+  overflow-y: scroll;
   grid-template-columns: ${({ x }) => `repeat(${x}, 1fr)`};
-  grid-gap: 5px;
 `;
 Grid.defaultProps = {
   x: 4,

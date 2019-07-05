@@ -16,14 +16,22 @@ class Account {
 
   @action
   public async init(): Promise<void> {
-    this.access = await connect.send('VKWebAppAuth');
-    this.user = await connect.send('VKWebAppGetUserInfo');
+    const { data } = await connect.send('VKWebAppGetAuthToken', { app_id: 7045022, scope: '' });
+    this.access = data.access_token;
+    console.log(this);
   }
 
-  public async api(method: string): Promise<[]> {
-    const { response } = await connect.send('VKWebApi', { method });
-    return response;
+  public async api(method: string, params: {}): Promise<[]> {
+    const { data } = await connect.send('VKWebAppCallAPIMethod', {
+      method,
+      params: {
+        ...params,
+        v: '5.77',
+        access_token: this.access,
+      },
+    });
+    return data.response.items;
   }
 }
 
-export default new Account();
+export default Account;

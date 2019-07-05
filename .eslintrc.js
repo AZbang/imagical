@@ -20,9 +20,9 @@ module.exports =  {
     },
   },
   rules: {
-    '@typescript-eslint/indent': ['error', 2],
     "comma-style": [2, "last"],
     "react/prop-types": "off",
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
   }

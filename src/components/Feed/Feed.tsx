@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent } from 'react';
 import Grid from './Grid';
 import Item from './Item';
-import Menu from './Menu';
 import { ImagicI } from '../../typings';
 
 interface Props {
   feed: ImagicI[];
+  loading: boolean;
+  onFeedEnd?: () => void;
 }
-type FeedType = 'grid' | 'list';
 
-const Feed: React.FC<Props> = ({ feed }) => {
-  const [feedType, setFeedType] = useState<FeedType>('grid');
-  const toggleFeedType = () => setFeedType(feedType === 'grid' ? 'list' : 'grid');
-  const getGridSize = (): number => (feedType === 'grid' ? 3 : 1);
+const Feed: React.FC<Props> = ({ feed, loading, onFeedEnd }) => {
+  const scrolled = ({ currentTarget: el }: SyntheticEvent<HTMLElement>) => {
+    if (el.scrollHeight - el.scrollTop < el.clientHeight * 2) {
+      !loading && onFeedEnd && onFeedEnd();
+    }
+  };
 
   return (
     <>
-      <Menu onClick={toggleFeedType}>Imagical feed</Menu>
-      <Grid x={getGridSize()}>
+      <Grid onScroll={scrolled} x={3}>
         {feed.map((item, i) => (
-          <Item key={i} />
+          <Item key={i} item={item} />
         ))}
       </Grid>
     </>

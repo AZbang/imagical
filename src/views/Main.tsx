@@ -1,11 +1,14 @@
-import React from 'react';
-import { Feed, User, View } from '../components';
+import React, { useEffect } from 'react';
+import { inject, observer } from 'mobx-react';
+import { Feed } from '../components';
+import { StoresI } from '../stores';
 
-const Main: React.FC = () => (
-  <View>
-    <User />
-    <Feed feed={new Array(100).fill(1)} />
-  </View>
-);
+const Main: React.FC<StoresI> = ({ account, feed }) => {
+  useEffect(() => {
+    feed.fetch();
+  }, []);
 
-export default Main;
+  return <Feed onFeedEnd={feed.fetch.bind(feed)} loading={feed.loading} feed={feed.data} />;
+};
+
+export default inject('account', 'feed')(observer(Main));
