@@ -8,6 +8,7 @@ export interface PublicI {
 
 export interface ImagicI {
   photo: string | null;
+  cover: string | null;
   width: number | null;
   height: number | null;
   text: string | null;
