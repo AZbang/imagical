@@ -10,6 +10,7 @@ const Grid = styled.div<Props>`
   overflow-y: scroll;
   grid-template-columns: ${({ x }) => `repeat(${x}, 1fr)`};
 `;
+
 Grid.defaultProps = {
   x: 4,
 };

@@ -1,19 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ImagicI } from '../../typings';
-
-const Image = styled.img`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #09091d;
-  object-fit: cover;
-`;
+import { Lazy } from '../';
 
 const Wrap = styled.div`
   position: relative;
   padding-bottom: 100%;
   width: 100%;
+  overflow: hidden;
 `;
 
 interface Props {
@@ -23,7 +17,7 @@ interface Props {
 const Item: React.FC<Props> = ({ item }) => {
   return (
     <Wrap>
-      <Image src={item.photo || ''} />
+      <Lazy src={item.photo || ''} cover={item.cover || ''} fit />
     </Wrap>
   );
 };
