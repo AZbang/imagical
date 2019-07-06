@@ -6,4 +6,5 @@ const View = styled.div`
   position: relative;
   background: #09091d;
 `;
+
 export default View;

@@ -17,13 +17,11 @@ const Feed: React.FC<Props> = ({ feed, loading, onFeedEnd }) => {
   };
 
   return (
-    <>
-      <Grid onScroll={scrolled} x={3}>
-        {feed.map((item, i) => (
-          <Item key={i} item={item} />
-        ))}
-      </Grid>
-    </>
+    <Grid onScroll={scrolled} x={3}>
+      {feed.map((item, i) => (
+        <Item key={i} item={item} />
+      ))}
+    </Grid>
   );
 };
 

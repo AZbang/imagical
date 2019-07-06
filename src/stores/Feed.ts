@@ -4,6 +4,7 @@ import { ImagicI, VKPhotoI } from '../typings';
 import { account } from '.';
 
 class Feed {
+  count = 99;
   offsets = new Map(groups.map(group => [group.id, 0]));
 
   @observable
@@ -11,9 +12,6 @@ class Feed {
 
   @observable
   loading: boolean = false;
-
-  offset = 0;
-  count = 99;
 
   public setLoading(v: boolean) {
     this.loading = v;

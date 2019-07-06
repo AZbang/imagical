@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Feed } from '../components';
+import { Feed, Badge } from '../components';
 import { StoresI } from '../stores';
 
 const Main: React.FC<StoresI> = ({ feed }) => {
@@ -8,7 +8,12 @@ const Main: React.FC<StoresI> = ({ feed }) => {
     feed.fetch();
   }, []);
 
-  return <Feed onFeedEnd={feed.fetch.bind(feed)} loading={feed.loading} feed={feed.data} />;
+  return (
+    <>
+      <Feed onFeedEnd={feed.fetch.bind(feed)} loading={feed.loading} feed={feed.data} />
+      <Badge>Loading</Badge>
+    </>
+  );
 };
 
 export default inject('feed')(observer(Main));
