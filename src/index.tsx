@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import connect from '@vkontakte/vkui-connect-promise';
 
-import App from './App';
+import App from './view/App';
 import * as serviceWorker from './serviceWorker';
 
 const root = document.getElementById('root');

@@ -16,7 +16,10 @@ class Account {
 
   @action
   public async init(): Promise<void> {
-    const { data } = await connect.send('VKWebAppGetAuthToken', { app_id: 7045022, scope: '' });
+    const { data } = await connect.send('VKWebAppGetAuthToken', {
+      app_id: 7045022,
+      scope: '',
+    });
     this.access = data.access_token;
     console.log(this);
   }

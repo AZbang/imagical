@@ -8,7 +8,7 @@ const devServer = {
   open: true,
   overlay: true,
   port: 8080,
-  host: '192.168.1.3',
+  host: '127.0.0.1',
   https: true,
   contentBase: [path.join(__dirname, '../src/', 'public'), path.join(__dirname, '../', 'dist')],
 };

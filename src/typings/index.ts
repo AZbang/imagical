@@ -7,11 +7,12 @@ export interface PublicI {
 }
 
 export interface ImagicI {
-  photo: string | null;
-  cover: string | null;
-  width: number | null;
-  height: number | null;
-  text: string | null;
+  id: number;
+  text: string;
+  photo?: string;
+  cover?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface VKPhotoSizeI {
@@ -22,6 +23,7 @@ export interface VKPhotoSizeI {
 }
 
 export interface VKPhotoI {
+  id: number;
   text: string;
   sizes: VKPhotoSizeI[];
 }

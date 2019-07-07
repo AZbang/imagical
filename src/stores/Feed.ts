@@ -11,6 +11,9 @@ class Feed {
   data: ImagicI[] = [];
 
   @observable
+  active: ImagicI | null = null;
+
+  @observable
   loading: boolean = false;
 
   public setLoading(v: boolean) {
@@ -20,6 +23,14 @@ class Feed {
   public addPhotos(photos: ImagicI[]) {
     const shuffle = photos.sort(() => Math.random() - 0.5);
     this.data = this.data.concat(shuffle);
+  }
+
+  public select(id: number) {
+    this.active = this.data.find(item => item.id === id) || null;
+  }
+
+  public close() {
+    this.active = null;
   }
 
   @action
@@ -41,26 +52,22 @@ class Feed {
     this.setLoading(false);
   }
 
-  public getPhotoSize(photo: VKPhotoI, size: string) {
-    return (
-      photo.sizes.find(({ type }) => type === size) || {
-        url: null,
-        width: null,
-        height: null,
-      }
-    );
+  public getPhotoSize(photo: VKPhotoI, size: 's' | 'x') {
+    return photo.sizes.find(({ type }) => type === size);
   }
 
-  public parsePhotos(response: VKPhotoI[]): ImagicI[] {
+  public parsePhotos(response: VKPhotoI[]) {
     return response.map(photo => {
-      const { url, width, height } = this.getPhotoSize(photo, 'x');
-      const { url: cover } = this.getPhotoSize(photo, 's');
+      const original = this.getPhotoSize(photo, 'x');
+      const cover = this.getPhotoSize(photo, 's');
+
       return {
+        id: photo.id,
         text: photo.text,
-        photo: url,
-        cover,
-        width,
-        height,
+        cover: cover && cover.url,
+        photo: original && original.url,
+        width: original && original.width,
+        height: original && original.height,
       };
     });
   }
