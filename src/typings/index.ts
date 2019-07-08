@@ -22,8 +22,15 @@ export interface VKPhotoSizeI {
   url: string;
 }
 
+export interface VKPublicI {
+  id: number;
+  name: string;
+  image: string;
+}
+
 export interface VKPhotoI {
   id: number;
   text: string;
+  likes: number;
   sizes: VKPhotoSizeI[];
 }

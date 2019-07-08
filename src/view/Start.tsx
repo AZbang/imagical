@@ -4,6 +4,7 @@ import { StoresI } from '../stores';
 import { watch } from '../utils';
 
 import { ButtonLink, Layout } from './Layout';
+import Preview from './Preview/Preview';
 
 const Header = styled.h1`
   text-align: center;
@@ -12,19 +13,25 @@ const Header = styled.h1`
   font-weight: bold;
 `;
 
-const Preview: React.FC<StoresI> = ({ account }) => {
+const Start: React.FC<StoresI> = ({ account }) => {
   useEffect(() => {
     account.init();
   }, []);
 
   return (
     <Layout>
-      <Header>imagical</Header>
-      <ButtonLink style={{ width: '60vw' }} to="/feed">
-        Start
-      </ButtonLink>
+      <Preview
+        photo={{
+          id: 1,
+          cover: 'code.png',
+          photo: 'code.png',
+          text: '',
+          width: 343,
+          height: 345,
+        }}
+      />
     </Layout>
   );
 };
 
-export default watch(Preview, 'account');
+export default watch(Start, 'account');

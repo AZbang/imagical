@@ -64,6 +64,7 @@ class Feed {
       return {
         id: photo.id,
         text: photo.text,
+        likes: photo.likes,
         cover: cover && cover.url,
         photo: original && original.url,
         width: original && original.width,
