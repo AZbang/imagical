@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface ImageProps {
   src?: string;
+  color?: string;
 }
 
 const FeedImage = styled.img<ImageProps>`

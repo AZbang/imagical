@@ -6,15 +6,6 @@ export interface PublicI {
   link: string;
 }
 
-export interface ImagicI {
-  id: number;
-  text: string;
-  photo?: string;
-  cover?: string;
-  width?: number;
-  height?: number;
-}
-
 export interface VKPhotoSizeI {
   type: 's' | 'x';
   width: number;
@@ -25,12 +16,19 @@ export interface VKPhotoSizeI {
 export interface VKPublicI {
   id: number;
   name: string;
-  image: string;
+  screen_name: string;
+  photo_200: string;
+  photo_100: string;
+  photo_50: string;
 }
 
 export interface VKPhotoI {
   id: number;
   text: string;
-  likes: number;
   sizes: VKPhotoSizeI[];
+  date: number;
+  likes: {
+    user_likes: number;
+    count: number;
+  };
 }

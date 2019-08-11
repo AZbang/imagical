@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ImagicI } from '../../typings';
-import { LazyImage } from '../Layout';
-import FeedImage from './FeedImage';
+import Image from '../Layout/Image';
+import Photo from '../../stores/Photo';
 
 const Item = styled.div`
   width: 100%;
@@ -12,14 +11,14 @@ const Item = styled.div`
 `;
 
 interface Props {
-  item: ImagicI;
+  item: Photo;
   onSelect?: (id: number) => void;
 }
 
 const FeedItem: React.FC<Props> = ({ item, onSelect }) => {
   return (
     <Item onClick={() => onSelect && onSelect(item.id)}>
-      <LazyImage Image={FeedImage} src={item.photo} cover={item.cover} />
+      <Image src={item.src} preview={item.preview} />
     </Item>
   );
 };

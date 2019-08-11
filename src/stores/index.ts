@@ -1,10 +1,13 @@
-import Account from './Account';
+import Api from './Api';
 import Feed from './Feed';
+import Publics from './Publics';
 
 export interface StoresI {
   feed: Feed;
-  account: Account;
+  publics: Publics;
+  api: Api;
 }
 
+export const api = new Api(7045022);
 export const feed = new Feed();
-export const account = new Account();
+export const publics = new Publics();

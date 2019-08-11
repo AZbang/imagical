@@ -1,76 +1,43 @@
-import { observable, action } from 'mobx';
-import groups from '../static/groups.json';
-import { ImagicI, VKPhotoI } from '../typings';
-import { account } from '.';
+import { observable, action, computed } from 'mobx';
+import Photo from './Photo';
+import { publics } from '.';
+import { print } from '../utils';
 
 class Feed {
-  count = 99;
-  offsets = new Map(groups.map(group => [group.id, 0]));
+  fetchCount = 18;
+  @observable colorType = 'all';
+  @observable store: Photo[] = [];
+  @observable active: Photo | null = null;
+  @observable loading: boolean = false;
 
-  @observable
-  data: ImagicI[] = [];
-
-  @observable
-  active: ImagicI | null = null;
-
-  @observable
-  loading: boolean = false;
-
-  public setLoading(v: boolean) {
-    this.loading = v;
-  }
-
-  public addPhotos(photos: ImagicI[]) {
-    const shuffle = photos.sort(() => Math.random() - 0.5);
-    this.data = this.data.concat(shuffle);
+  public toFeed(photos: Photo[]) {
+    this.store = this.store.concat(photos);
   }
 
   public select(id: number) {
-    this.active = this.data.find(item => item.id === id) || null;
+    this.active = this.store.find(item => item.id === id) || null;
   }
 
   public close() {
     this.active = null;
   }
 
+  @computed
+  public get filtered() {
+    if (this.colorType === 'all') return this.store;
+    return this.store.filter(item => item.color === this.colorType);
+  }
+
   @action
   public async fetch(): Promise<void> {
-    this.setLoading(true);
-
-    const { id } = groups[Math.floor(Math.random() * groups.length)];
-    const offset = this.offsets.get(id) || 0;
-    const data = await account.api('photos.get', {
-      owner_id: -id,
-      album_id: 'wall',
-      count: this.count,
-      offset: offset,
-      rev: 0,
-    });
-
-    this.offsets.set(id, offset + this.count);
-    this.addPhotos(this.parsePhotos(data));
-    this.setLoading(false);
-  }
-
-  public getPhotoSize(photo: VKPhotoI, size: 's' | 'x') {
-    return photo.sizes.find(({ type }) => type === size);
-  }
-
-  public parsePhotos(response: VKPhotoI[]) {
-    return response.map(photo => {
-      const original = this.getPhotoSize(photo, 'x');
-      const cover = this.getPhotoSize(photo, 's');
-
-      return {
-        id: photo.id,
-        text: photo.text,
-        likes: photo.likes,
-        cover: cover && cover.url,
-        photo: original && original.url,
-        width: original && original.width,
-        height: original && original.height,
-      };
-    });
+    this.loading = true;
+    const group = await publics.getRandom();
+    if (group) {
+      const photos = await group.getFeed(this.fetchCount);
+      this.toFeed(photos);
+    }
+    print(this.store);
+    this.loading = false;
   }
 }
 

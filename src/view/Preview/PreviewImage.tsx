@@ -1,32 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { bounceIn } from './animation';
-import { LazyImage } from '../Layout';
-import PreviewControl from './PreviewControl';
-import PreviewPublic from './PreviewPublic';
+import Image from '../Layout/Image';
 
-const Wrap = styled.div`
-  text-align: center;
-  animation: ${bounceIn} 0.5s;
-`;
-
-const Image = styled.img`
-  width: 90%;
-  object-fit: cover;
+const ImageWrap = styled.div`
+  height: 50vh;
   border-radius: 20px;
+  position: relative;
+  overflow: hidden;
 `;
 
 interface PreviewImageI {
-  src?: string;
-  cover?: string;
+  src: string;
+  preview: string;
 }
 
-const PreviewImage: React.FC<PreviewImageI> = ({ src, cover }) => (
-  <Wrap>
-    <PreviewPublic />
-    <LazyImage Image={Image} src={src} cover={cover} />
-    <PreviewControl likes={342} photo={src} />
-  </Wrap>
+const PreviewImage: React.FC<PreviewImageI> = ({ src, preview }) => (
+  <ImageWrap>
+    <Image src={src} preview={preview} />
+  </ImageWrap>
 );
 
 export default PreviewImage;

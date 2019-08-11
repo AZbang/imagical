@@ -1,10 +1,10 @@
 import React, { SyntheticEvent } from 'react';
 import FeedGrid from './FeedGrid';
 import FeedItem from './FeedItem';
-import { ImagicI } from '../../typings';
+import Photo from '../../stores/Photo';
 
 interface Props {
-  feed: ImagicI[];
+  feed: Photo[];
   size: number;
   onSelect?: (id: number) => void;
   onFeedEnd?: () => void;

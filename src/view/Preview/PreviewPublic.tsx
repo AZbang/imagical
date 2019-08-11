@@ -15,8 +15,8 @@ const Badge = styled.div`
 
 const BadgeAvatar = styled.img`
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 `;
 
 const BadgeContent = styled.div`
@@ -27,6 +27,7 @@ const BadgeContent = styled.div`
 const BadgeTitle = styled.h1`
   margin: 0;
   font-size: 1em;
+  font-weight: normal;
 `;
 
 const BadgeText = styled.p`
@@ -36,18 +37,17 @@ const BadgeText = styled.p`
 `;
 
 interface PreviewPublicI {
-  image?: string;
-  name?: string;
+  cover: string;
+  name: string;
   text?: string;
   url?: string;
 }
 
-const PreviewPublic: React.FC<PreviewPublicI> = () => (
+const PreviewPublic: React.FC<PreviewPublicI> = ({ cover, name }) => (
   <Badge>
-    <BadgeAvatar src="code.png" />
+    <BadgeAvatar src={cover} alt="cover" />
     <BadgeContent>
-      <BadgeTitle>Tumpler</BadgeTitle>
-      <BadgeText>Грязный скунс атакует поезда!!!</BadgeText>
+      <BadgeTitle>{name}</BadgeTitle>
     </BadgeContent>
   </Badge>
 );
