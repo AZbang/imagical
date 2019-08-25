@@ -1,9 +1,10 @@
 import FastAverageColor from 'fast-average-color';
-import { VKPhotoI } from '../typings';
+import { IVKPhoto } from '../typings';
+import User from './User';
 
 class Photo {
-  private origin: VKPhotoI;
-  public publicId: number;
+  private origin: IVKPhoto;
+  public provider: User;
   public id: number;
   public src: string;
   public likes: number;
@@ -11,23 +12,30 @@ class Photo {
   public height: number;
   public description: string;
   public preview: string;
+  public date: number;
   public color?: string;
+  public scale: number;
+  public w: number;
+  public h: number;
 
-  constructor(publicId: number, photo: VKPhotoI) {
+  constructor(provider: User, photo: IVKPhoto) {
     this.origin = photo;
-    this.publicId = publicId;
-
+    this.provider = provider;
     this.id = photo.id;
     this.description = photo.text;
     this.likes = photo.likes.count;
+    this.date = photo.date;
 
     const large = this.getSize('x');
     this.src = large.url;
     this.width = large.width;
     this.height = large.height;
 
+    this.scale = window.innerWidth / 2 / this.width;
+    this.w = this.width * this.scale - 30;
+    this.h = this.height * this.scale;
+
     this.preview = this.getSize('s').url;
-    this.preprocess();
   }
 
   public getSize(size: 's' | 'x') {

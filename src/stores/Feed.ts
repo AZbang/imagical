@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
-import Photo from './Photo';
-import { publics } from '.';
+import Photo from '../models/Photo';
+import { client } from '.';
 import { print } from '../utils';
 
 class Feed {
@@ -29,15 +29,21 @@ class Feed {
   }
 
   @action
-  public async fetch(): Promise<void> {
+  public async fetchPhotos() {
+    if (this.loading) return;
     this.loading = true;
-    const group = await publics.getRandom();
-    if (group) {
-      const photos = await group.getFeed(this.fetchCount);
-      this.toFeed(photos);
+    try {
+      let photos: Photo[] = [];
+      const users = client.getRandomFriends(5);
+      for (const user of users) {
+        const data = await user.getPhotos(10);
+        photos = photos.concat(data);
+      }
+      this.toFeed(photos.sort(() => Math.random() - 0.5));
+      this.loading = false;
+    } catch (e) {
+      this.loading = false;
     }
-    print(this.store);
-    this.loading = false;
   }
 }
 

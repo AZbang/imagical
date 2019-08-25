@@ -1,5 +1,5 @@
 import connect from '@vkontakte/vkui-connect-promise';
-import { VKPhotoI, VKPublicI } from '../typings';
+import { IVKPhoto, IVKUser, IVKPublic } from '../typings';
 
 class Api {
   private accessToken: string = '';
@@ -10,6 +10,17 @@ class Api {
   constructor(appId: number) {
     this.appId = appId;
     connect.send('VKWebAppInit', {});
+  }
+
+  public async getClientData(): Promise<IVKUser> {
+    const { data } = await connect.send('VKWebAppGetUserInfo', {});
+    return data;
+  }
+
+  public async openPhotoViewer(images: string[]): Promise<void> {
+    return await connect.send('VKWebAppShowImages', {
+      images,
+    });
   }
 
   public async requestPermissions(scope: string): Promise<boolean> {
@@ -30,15 +41,15 @@ class Api {
     return data.access_token;
   }
 
-  public async getPhotos(
-    groupId: number,
+  public async getSavedPhotos(
+    id: number,
     count: number = 99,
     offset: number = 0,
-  ): Promise<VKPhotoI[]> {
+  ): Promise<IVKPhoto[]> {
     const { items } = await this.api('photos.get', {
-      owner_id: -groupId,
+      owner_id: id,
       offset: offset,
-      album_id: 'wall',
+      album_id: 'saved',
       extended: true,
       count: count,
       rev: 1,
@@ -46,7 +57,37 @@ class Api {
     return items;
   }
 
-  public async getPublics(ids: number[]): Promise<VKPublicI[]> {
+  public async savePhoto(owner: number, photo: number): Promise<void> {
+    return await this.api('photos.copy', {
+      owner_id: owner,
+      photo_id: photo,
+    });
+  }
+
+  public async removePhoto(photo: number): Promise<void> {
+    return await this.api('photos.delete', {
+      photo_id: photo,
+    });
+  }
+
+  public async getFriends(id: number): Promise<IVKUser[]> {
+    const { items } = await this.api('friends.get', {
+      user_id: id,
+      fields: 'photo_100, nickname',
+      order: 'random',
+    });
+    return items;
+  }
+
+  public async getUsers(ids: number[]): Promise<IVKUser[]> {
+    const data = await this.api('users.get', {
+      user_ids: ids,
+      fields: 'photo_100, nickname',
+    });
+    return data;
+  }
+
+  public async getPublics(ids: number[]): Promise<IVKPublic[]> {
     const publics = await this.api('groups.getById', {
       group_ids: ids.join(','),
     });
@@ -55,7 +96,6 @@ class Api {
 
   public async api(method: string, params: {}): Promise<any> {
     if (!this.accessToken) throw Error('VK Apps: Permissions not allowed');
-
     const { data } = await connect.send('VKWebAppCallAPIMethod', {
       method,
       params: {

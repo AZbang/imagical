@@ -1,13 +1,13 @@
 import Api from './Api';
 import Feed from './Feed';
-import Publics from './Publics';
+import Client from './Client';
 
 export interface StoresI {
   feed: Feed;
-  publics: Publics;
+  client: Client;
   api: Api;
 }
 
 export const api = new Api(7045022);
 export const feed = new Feed();
-export const publics = new Publics();
+export const client = new Client();

@@ -6,14 +6,14 @@ export interface PublicI {
   link: string;
 }
 
-export interface VKPhotoSizeI {
+export interface IVKPhotoSize {
   type: 's' | 'x';
   width: number;
   height: number;
   url: string;
 }
 
-export interface VKPublicI {
+export interface IVKPublic {
   id: number;
   name: string;
   screen_name: string;
@@ -22,10 +22,20 @@ export interface VKPublicI {
   photo_50: string;
 }
 
-export interface VKPhotoI {
+export interface IVKUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  is_closed?: boolean;
+  can_access_closed?: boolean;
+  nickname?: string;
+  photo_100: string;
+}
+
+export interface IVKPhoto {
   id: number;
   text: string;
-  sizes: VKPhotoSizeI[];
+  sizes: IVKPhotoSize[];
   date: number;
   likes: {
     user_likes: number;

@@ -3,7 +3,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
-    "plugin:prettier/recommended",
+    'plugin:prettier/recommended',
   ],
   plugins: ['prettier'],
   parserOptions: {
@@ -20,12 +20,13 @@ module.exports = {
     },
   },
   rules: {
-    "comma-style": [2, "last"],
-    "react/prop-types": "off",
-    "@typescript-eslint/indent": "off",
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-member-accessibility": "off",
-    "@typescript-eslint/no-non-null-assertion": "off"
-  }
+    'comma-style': [2, 'last'],
+    'react/prop-types': 'off',
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+  },
 };

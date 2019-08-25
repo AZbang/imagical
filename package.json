@@ -24,6 +24,7 @@
     "react": "^16.8.6",
     "react-blur-image-loader": "^0.2.2",
     "react-dom": "^16.8.6",
+    "react-masonry-layout": "^0.4.0",
     "react-router-dom": "^5.0.1",
     "styled-components": "^4.3.2"
   },

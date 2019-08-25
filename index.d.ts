@@ -1,2 +1,2 @@
 declare module '@vkontakte/vkui-connect-promise';
-declare module 'react-blur-image-loader';
+declare module 'react-masonry-layout';
