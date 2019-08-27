@@ -6,13 +6,6 @@ export interface PublicI {
   link: string;
 }
 
-export interface IVKPhotoSize {
-  type: 's' | 'x';
-  width: number;
-  height: number;
-  url: string;
-}
-
 export interface IVKPublic {
   id: number;
   name: string;
@@ -35,10 +28,35 @@ export interface IVKUser {
 export interface IVKPhoto {
   id: number;
   text: string;
-  sizes: IVKPhotoSize[];
+  sizes: {
+    type: 's' | 'x' | 'z';
+    width: number;
+    height: number;
+    url: string;
+  }[];
   date: number;
   likes: {
     user_likes: number;
     count: number;
   };
+}
+
+export interface IPhotoModel {
+  id: number;
+  src: string;
+  date: number;
+  provider: number;
+  originalWidth: number;
+  originalHeight: number;
+  width: number;
+  height: number;
+  saved: boolean;
+}
+
+export interface IUserModel {
+  id: number;
+  avatar: string;
+  firstName: string;
+  lastName: string;
+  offset: number;
 }

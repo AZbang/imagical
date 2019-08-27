@@ -10,7 +10,7 @@ const Feed: React.FC<Props> = ({ client }) => {
   return (
     <Layout>
       <Title>saved.</Title>
-      <Collection data={client.saved} />
+      <Collection data={[]} />
       <Menu />
     </Layout>
   );

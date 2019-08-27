@@ -1,27 +1,34 @@
-import React, { useEffect, SyntheticEvent } from 'react';
+import React, { useEffect } from 'react';
 import { StoresI } from '../stores';
 import { watch, print } from '../utils';
 import { Layout, Title } from './kit';
 import Collection from './Collection';
-import Menu from './Menu';
+import Placeholder from './Placeholder';
 
 type Props = StoresI;
 const Feed: React.FC<Props> = ({ feed, client }) => {
+  const loadData = () => {
+    if (feed.loading) return;
+    const users = client.getRandomFriends(3);
+    print(users, feed, client);
+    feed.fetchFromUsers(users);
+  };
+
   useEffect(() => {
-    if (client.ready) feed.fetchPhotos();
+    if (client.ready) feed.fetchFromUsers(client.getRandomFriends(3));
   }, [client.ready]);
 
+  print(feed.photos);
   return (
     <Layout>
       <Title>imagical</Title>
+      {(!client.ready || feed.loading) && <Placeholder />}
       <Collection
-        liked={client.liked}
-        onSelect={client.openPhoto.bind(client)}
-        onLike={client.toggleSave.bind(client)}
-        onEnd={feed.fetchPhotos.bind(feed)}
-        data={feed.store}
+        onSelect={feed.openPhoto.bind(feed)}
+        onLike={feed.savePhoto.bind(feed)}
+        onEnd={loadData}
+        data={feed.photos}
       />
-      <Menu />
     </Layout>
   );
 };

@@ -108,4 +108,4 @@ class Api {
   }
 }
 
-export default Api;
+export default new Api(7045022);

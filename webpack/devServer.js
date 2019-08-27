@@ -7,10 +7,13 @@ const devServer = {
   noInfo: true,
   open: true,
   overlay: true,
-  port: 8080,
+  port: 1888,
   host: '127.0.0.1',
   https: true,
-  contentBase: [path.join(__dirname, '../src/', 'public'), path.join(__dirname, '../', 'dist')],
+  contentBase: [
+    path.join(__dirname, '../src/', 'public'),
+    path.join(__dirname, '../', 'dist'),
+  ],
 };
 
 module.exports = { devServer };

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { FC } from 'react';
-import { Picture } from '.';
+import { Picture } from '../kit';
 
 interface Props {
   onLike?: () => void;
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Wrap = styled.div`
-  background: #fff;
+  background: #607d8b3d;
   overflow: hidden;
   border-radius: 20px;
   width: 50vw;

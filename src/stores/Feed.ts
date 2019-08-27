@@ -1,49 +1,75 @@
-import { observable, action, computed } from 'mobx';
-import Photo from '../models/Photo';
-import { client } from '.';
-import { print } from '../utils';
+import { observable, action } from 'mobx';
+import { getStorage, setStorage } from '../utils';
+import { IVKPhoto, IPhotoModel, IUserModel } from '../typings';
+import api from '../utils/api';
 
 class Feed {
-  fetchCount = 18;
-  @observable colorType = 'all';
-  @observable store: Photo[] = [];
-  @observable active: Photo | null = null;
-  @observable loading: boolean = false;
+  public readonly FETCH_COUNT = 9;
+  public saved: number[] = getStorage('saved') || [];
 
-  public toFeed(photos: Photo[]) {
-    this.store = this.store.concat(photos);
-  }
+  @observable
+  public photos: IPhotoModel[] = [];
 
-  public select(id: number) {
-    this.active = this.store.find(item => item.id === id) || null;
-  }
+  @observable
+  public loading: boolean = false;
 
-  public close() {
-    this.active = null;
-  }
+  @action
+  public addPhoto(userId: number, photo: IVKPhoto) {
+    const image = photo.sizes.find(size => size.type === 'x')!;
+    const src = image.url;
+    const originalWidth = image.width;
+    const originalHeight = image.height;
 
-  @computed
-  public get filtered() {
-    if (this.colorType === 'all') return this.store;
-    return this.store.filter(item => item.color === this.colorType);
+    const scale = window.innerWidth / 2 / originalWidth;
+    const width = originalWidth * scale - 30;
+    const height = originalHeight * scale;
+
+    this.photos.push({
+      src,
+      width,
+      height,
+      id: photo.id,
+      date: photo.date,
+      provider: userId,
+      originalWidth,
+      originalHeight,
+      saved: !!this.saved.find(v => v === photo.id),
+    });
   }
 
   @action
-  public async fetchPhotos() {
-    if (this.loading) return;
+  public async fetchFromUsers(users: IUserModel[]) {
     this.loading = true;
-    try {
-      let photos: Photo[] = [];
-      const users = client.getRandomFriends(5);
-      for (const user of users) {
-        const data = await user.getPhotos(10);
-        photos = photos.concat(data);
-      }
-      this.toFeed(photos.sort(() => Math.random() - 0.5));
-      this.loading = false;
-    } catch (e) {
-      this.loading = false;
+    for (const user of users) {
+      const data = await api.getSavedPhotos(
+        user.id,
+        this.FETCH_COUNT,
+        user.offset,
+      );
+      data.forEach(photo => this.addPhoto(user.id, photo));
+      user.offset += this.FETCH_COUNT;
     }
+    this.loading = false;
+  }
+
+  public async openPhoto(id: number) {
+    const photo = this.getPhoto(id);
+    if (photo) await api.openPhotoViewer([photo.src]);
+  }
+
+  @action
+  public async savePhoto(id: number) {
+    const photo = this.getPhoto(id);
+    if (!photo || photo.saved) return;
+    await api.savePhoto(photo.provider, photo.id);
+
+    photo.saved = true;
+    this.saved.push(photo.id);
+    setStorage('saved', this.saved);
+  }
+
+  public getPhoto(id: number): IPhotoModel | null {
+    return this.photos.find(photo => photo.id === id) || null;
   }
 }
 
